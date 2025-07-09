@@ -60,7 +60,6 @@
       flex-direction: column;
       align-items: flex-start;
       margin-bottom: 10px;
-      position: relative;
     }
     label {
       font-size: 1.1rem;
@@ -72,8 +71,7 @@
       color: #ff3535;
       margin-left: 2px;
     }
-    input[type="text"],
-    input[type="password"] {
+    input[type="text"] {
       width: 100%;
       padding: 12px 10px;
       border-radius: 5px;
@@ -83,17 +81,6 @@
       font-size: 1.1rem;
       outline: none;
       margin-bottom: 0;
-    }
-    .toggle-password {
-      position: absolute;
-      right: 12px;
-      top: 38px;
-      background: none;
-      border: none;
-      color: #333;
-      font-size: 1.2rem;
-      cursor: pointer;
-      user-select: none;
     }
     .form-divider {
       width: 100%;
@@ -127,6 +114,7 @@
 <body>
 <div class="center-box">
   <img class="form-img" src="https://pbs.twimg.com/media/FQOc832aQAo-dez.jpg:large" alt="Gamer Banner">
+  <!-- Usa tu imagen arriba si lo prefieres -->
   <div class="form-container">
     <div class="form-title">Participa</div>
     <hr class="form-divider">
@@ -137,8 +125,7 @@
       </div>
       <div class="form-group">
         <label for="key">Llave <span class="required">*</span></label>
-        <input type="password" id="key" placeholder="" required>
-        <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+        <input type="text" id="key" placeholder="" required>
       </div>
     </div>
     <hr class="form-divider">
@@ -166,27 +153,22 @@ const redirects = {
   "zalvita": { key: "salvatore*88", url: "https://sites.google.com/view/muonlinelavip/xcdzalvito122d" },
   "jeanbar19": { key: "Aimar22", url: "https://sites.google.com/view/muonlinelavip/xjeanbar12d12" },
   "skull": { key: "us3rs1", url: "https://sites.google.com/view/muonlinelavip/xssgoldxas" },
-  "FEDEXS94": { key: "FEDEXS94", url: "https://sites.google.com/view/muonlinelavip/xsxfedexs94hjs" },
+  "FEDEXS94": { key: "fedes", url: "https://sites.google.com/view/muonlinelavip/xsxfedexs94hjs" },
   "xXOTELOXx": { key: "Oteloark1990", url: "https://sites.google.com/view/muonlinelavip/xs1xxoteloxxxcs" },
-  "RITALIN16": { key: "123misterio", url: "https://sites.google.com/view/muonlinelavip/x2dritalin16xy5" },
-  "metalazul": { key: "AioriadeVirgo", url: "https://sites.google.com/view/muonlinelavip/xsxmetalazulxxa" }
+  "RITALIN16": { key: "123misterio", url: "https://sites.google.com/view/muonlinelavip/x2dritalin16xy5" }
 };
 
-function validateForm() {
-  const character = document.getElementById("character").value.trim();
-  const key = document.getElementById("key").value.trim();
 
-  if (redirects[character] && redirects[character].key === key) {
-    window.location.href = redirects[character].url;
-  } else {
-    alert("Datos incorrectos. Verifica tu Game Character y Llave.");
+  function validateForm() {
+    const character = document.getElementById("character").value.trim();
+    const key = document.getElementById("key").value.trim();
+
+    if (redirects[character] && redirects[character].key === key) {
+      window.location.href = redirects[character].url;
+    } else {
+      alert("Datos incorrectos. Verifica tu Game Character y Llave.");
+    }
   }
-}
-
-function togglePassword() {
-  const keyInput = document.getElementById("key");
-  keyInput.type = keyInput.type === "password" ? "text" : "password";
-}
 </script>
 </body>
 </html>
