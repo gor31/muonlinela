@@ -26,7 +26,6 @@
       margin-bottom: 30px;
       border-radius: 8px;
       box-shadow: 0 0 12px 2px #000;
-      background: #222;
     }
     .form-container {
       background-color: rgba(0, 0, 0, 0.90);
@@ -44,8 +43,6 @@
       font-weight: bold;
       margin-bottom: 25px;
       text-align: center;
-      font-family: inherit;
-      letter-spacing: 1px;
       text-shadow: 1px 1px 8px #000;
     }
     .form-fields {
@@ -58,20 +55,19 @@
     .form-group {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      margin-bottom: 10px;
+      position: relative;
     }
     label {
       font-size: 1.1rem;
       margin-bottom: 6px;
       margin-left: 4px;
-      font-weight: 500;
     }
     .required {
       color: #ff3535;
       margin-left: 2px;
     }
-    input[type="text"] {
+    input[type="text"],
+    input[type="password"] {
       width: 100%;
       padding: 12px 10px;
       border-radius: 5px;
@@ -80,7 +76,19 @@
       color: #222;
       font-size: 1.1rem;
       outline: none;
-      margin-bottom: 0;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 42px;
+      background: none;
+      border: none;
+      color: #333;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background-color: #fff;
+      padding: 3px 8px;
+      border-radius: 5px;
     }
     .form-divider {
       width: 100%;
@@ -98,8 +106,6 @@
       font-weight: bold;
       font-size: 1.1rem;
       width: 200px;
-      margin: 0 auto;
-      transition: background 0.18s;
       box-shadow: 0 2px 10px #9006;
     }
     .form-btn:hover {
@@ -114,18 +120,18 @@
 <body>
 <div class="center-box">
   <img class="form-img" src="https://pbs.twimg.com/media/FQOc832aQAo-dez.jpg:large" alt="Gamer Banner">
-  <!-- Usa tu imagen arriba si lo prefieres -->
   <div class="form-container">
     <div class="form-title">Participa</div>
     <hr class="form-divider">
     <div class="form-fields">
       <div class="form-group">
         <label for="character">Game Character <span class="required">*</span></label>
-        <input type="text" id="character" placeholder="" required>
+        <input type="text" id="character" required>
       </div>
       <div class="form-group">
         <label for="key">Llave <span class="required">*</span></label>
-        <input type="text" id="key" placeholder="" required>
+        <input type="password" id="key" required>
+        <button type="button" class="toggle-password" onclick="togglePassword()" id="toggleBtn">Mostrar</button>
       </div>
     </div>
     <hr class="form-divider">
@@ -134,42 +140,56 @@
 </div>
 
 <script>
-const redirects = {
-  "Tekkel": { key: "Inv2025", url: "https://sites.google.com/view/muonlinelavip/xc123tekkelxcd" },
-  "Misterwed": { key: "Maestro18", url: "https://sites.google.com/view/muonlinelavip/xzmisterwedcvzx" },
-  "lRockerito": { key: "yaiko2013", url: "https://sites.google.com/view/muonlinelavip/x12xrockeritov22" },
-  "HDinasty": { key: "362514748596", url: "https://sites.google.com/view/muonlinelavip/x121dinastyx1" },
-  "RASPER": { key: "roxibu2025", url: "https://sites.google.com/view/muonlinelavip/xfvd1rasperx1" },
-  "TheLorean": { key: "rubenycandi", url: "https://sites.google.com/view/muonlinelavip/jx7theloreans1" },
-  "VENGARME": { key: "richardsurth", url: "https://sites.google.com/view/muonlinelavip/xasvengarm3zsq" },
-  "XCRONOXRF": { key: "20304980", url: "https://sites.google.com/view/muonlinelavip/oj3xcronoxs12" },
-  "Veghita": { key: "123456789gasty", url: "https://sites.google.com/view/muonlinelavip/12veghita3dd11s" },
-  "David01": { key: "David10$", url: "https://sites.google.com/view/muonlinelavip/xdavid12sxs1" },
-  "vidmey54": { key: "26024219", url: "https://sites.google.com/view/muonlinelavip/x9vidmey54987x" },
-  "Yogui05": { key: "Jhon9512", url: "https://sites.google.com/view/muonlinelavip/22yoguit05dd123" },
-  "Loteria": { key: "Adrewmaxi7", url: "https://sites.google.com/view/muonlinelavip/s1loterias11" },
-  "Darkinos": { key: "4455", url: "https://sites.google.com/view/muonlinelavip/2rdarkinosr1s1" },
-  "velazcoxx": { key: "estrella123", url: "https://sites.google.com/view/muonlinelavip/svelazco2d12aas" },
-  "zalvita": { key: "salvatore*88", url: "https://sites.google.com/view/muonlinelavip/xcdzalvito122d" },
-  "jeanbar19": { key: "Aimar22", url: "https://sites.google.com/view/muonlinelavip/xjeanbar12d12" },
-  "skull": { key: "us3rs1", url: "https://sites.google.com/view/muonlinelavip/xssgoldxas" },
-  "FEDEXS94": { key: "FEDEXS94", url: "https://sites.google.com/view/muonlinelavip/xsxfedexs94hjs" },
-  "xXOTELOXx": { key: "Oteloark1990", url: "https://sites.google.com/view/muonlinelavip/xs1xxoteloxxxcs" },
-  "RITALIN16": { key: "123misterio", url: "https://sites.google.com/view/muonlinelavip/x2dritalin16xy5" }
-};
+const users = [
+  { character: "Tekkel", key: "Inv2025", url: "https://sites.google.com/view/muonlinelavip/xc123tekkelxcd" },
+  { character: "Misterwed", key: "Maestro18", url: "https://sites.google.com/view/muonlinelavip/xzmisterwedcvzx" },
+  { character: "lRockerito", key: "yaiko2013", url: "https://sites.google.com/view/muonlinelavip/x12xrockeritov22" },
+  { character: "HDinasty", key: "362514748596", url: "https://sites.google.com/view/muonlinelavip/x121dinastyx1" },
+  { character: "RASPER", key: "roxibu2025", url: "https://sites.google.com/view/muonlinelavip/xfvd1rasperx1" },
+  { character: "TheLorean", key: "rubenycandi", url: "https://sites.google.com/view/muonlinelavip/jx7theloreans1" },
+  { character: "VENGARME", key: "richardsurth", url: "https://sites.google.com/view/muonlinelavip/xasvengarm3zsq" },
+  { character: "XCRONOXRF", key: "20304980", url: "https://sites.google.com/view/muonlinelavip/oj3xcronoxs12" },
+  { character: "Veghita", key: "123456789gasty", url: "https://sites.google.com/view/muonlinelavip/12veghita3dd11s" },
+  { character: "David01", key: "David10$", url: "https://sites.google.com/view/muonlinelavip/xdavid12sxs1" },
+  { character: "vidmey54", key: "26024219", url: "https://sites.google.com/view/muonlinelavip/x9vidmey54987x" },
+  { character: "Yogui05", key: "Jhon9512", url: "https://sites.google.com/view/muonlinelavip/22yoguit05dd123" },
+  { character: "Loteria", key: "Adrewmaxi7", url: "https://sites.google.com/view/muonlinelavip/s1loterias11" },
+  { character: "Darkinos", key: "4455", url: "https://sites.google.com/view/muonlinelavip/2rdarkinosr1s1" },
+  { character: "velazcoxx", key: "estrella123", url: "https://sites.google.com/view/muonlinelavip/svelazco2d12aas" },
+  { character: "zalvita", key: "salvatore*88", url: "https://sites.google.com/view/muonlinelavip/xcdzalvito122d" },
+  { character: "jeanbar19", key: "Aimar22", url: "https://sites.google.com/view/muonlinelavip/xjeanbar12d12" },
+  { character: "skull", key: "us3rs1", url: "https://sites.google.com/view/muonlinelavip/xssgoldxas" },
+  { character: "FEDEXS94", key: "FEDEXS94", url: "https://sites.google.com/view/muonlinelavip/xsxfedexs94hjs" },
+  { character: "xXOTELOXx", key: "Oteloark1990", url: "https://sites.google.com/view/muonlinelavip/xs1xxoteloxxxcs" },
+  { character: "RITALIN16", key: "123misterio", url: "https://sites.google.com/view/muonlinelavip/x2dritalin16xy5" }
+];
 
+function validateForm() {
+  const character = document.getElementById("character").value.trim().toLowerCase();
+  const key = document.getElementById("key").value.trim();
 
+  const user = users.find(u => u.character.toLowerCase() === character && u.key === key);
 
-  function validateForm() {
-    const character = document.getElementById("character").value.trim();
-    const key = document.getElementById("key").value.trim();
-
-    if (redirects[character] && redirects[character].key === key) {
-      window.location.href = redirects[character].url;
-    } else {
-      alert("Datos incorrectos. Verifica tu Game Character y Llave.");
-    }
+  if (user) {
+    window.location.href = user.url;
+  } else {
+    alert("Datos incorrectos. Verifica tu Game Character y Llave.");
   }
+}
+
+function togglePassword() {
+  const keyInput = document.getElementById("key");
+  const toggleBtn = document.getElementById("toggleBtn");
+
+  if (keyInput.type === "password") {
+    keyInput.type = "text";
+    toggleBtn.textContent = "Ocultar";
+  } else {
+    keyInput.type = "password";
+    toggleBtn.textContent = "Mostrar";
+  }
+}
 </script>
 </body>
 </html>
+
