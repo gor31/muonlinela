@@ -60,6 +60,7 @@
       flex-direction: column;
       align-items: flex-start;
       margin-bottom: 10px;
+      position: relative;
     }
     label {
       font-size: 1.1rem;
@@ -71,7 +72,8 @@
       color: #ff3535;
       margin-left: 2px;
     }
-    input[type="text"] {
+    input[type="text"],
+    input[type="password"] {
       width: 100%;
       padding: 12px 10px;
       border-radius: 5px;
@@ -81,6 +83,17 @@
       font-size: 1.1rem;
       outline: none;
       margin-bottom: 0;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 38px;
+      background: none;
+      border: none;
+      color: #333;
+      font-size: 1.2rem;
+      cursor: pointer;
+      user-select: none;
     }
     .form-divider {
       width: 100%;
@@ -114,7 +127,6 @@
 <body>
 <div class="center-box">
   <img class="form-img" src="https://pbs.twimg.com/media/FQOc832aQAo-dez.jpg:large" alt="Gamer Banner">
-  <!-- Usa tu imagen arriba si lo prefieres -->
   <div class="form-container">
     <div class="form-title">Participa</div>
     <hr class="form-divider">
@@ -125,7 +137,8 @@
       </div>
       <div class="form-group">
         <label for="key">Llave <span class="required">*</span></label>
-        <input type="text" id="key" placeholder="" required>
+        <input type="password" id="key" placeholder="" required>
+        <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
       </div>
     </div>
     <hr class="form-divider">
@@ -159,17 +172,21 @@ const redirects = {
   "metalazul": { key: "AioriadeVirgo", url: "https://sites.google.com/view/muonlinelavip/xsxmetalazulxxa" }
 };
 
+function validateForm() {
+  const character = document.getElementById("character").value.trim();
+  const key = document.getElementById("key").value.trim();
 
-  function validateForm() {
-    const character = document.getElementById("character").value.trim();
-    const key = document.getElementById("key").value.trim();
-
-    if (redirects[character] && redirects[character].key === key) {
-      window.location.href = redirects[character].url;
-    } else {
-      alert("Datos incorrectos. Verifica tu Game Character y Llave.");
-    }
+  if (redirects[character] && redirects[character].key === key) {
+    window.location.href = redirects[character].url;
+  } else {
+    alert("Datos incorrectos. Verifica tu Game Character y Llave.");
   }
+}
+
+function togglePassword() {
+  const keyInput = document.getElementById("key");
+  keyInput.type = keyInput.type === "password" ? "text" : "password";
+}
 </script>
 </body>
 </html>
